@@ -88,16 +88,16 @@ const renameObjectProperty = (options: RenameOptions<namedTypes.ObjectProperty>)
 };
 
 export const renameVariableDeclaration = (
-  path: namedTypes.VariableDeclaration,
+  node: namedTypes.VariableDeclaration,
   newName: string,
   originName?: string,
 ) => {
-  const declarations = path.declarations as (namedTypes.VariableDeclarator)[];
+  const declarations = node.declarations as (namedTypes.VariableDeclarator)[];
 
   if (declarations.length > 1 && !originName) {
     // 如果存在多个声明，则给出提示，应该提供你需要修改的变量的名称
     console.warn("this VariableDeclaration has multiple declaration, you should provide name of the variable you want to rename");
-    return false;
+    return node;
   }
 
   declarations.forEach((declaration, index) => {
@@ -129,5 +129,5 @@ export const renameVariableDeclaration = (
       });
     }
   });
-  return false;
+  return node;
 };

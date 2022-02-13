@@ -15,6 +15,26 @@ export class AstHelper {
     return (ast as any)[0]?.nodePath?.node;
   }
 
+  static rename(nodeAst: ASTNode, newName: string, originName?: string) {
+    let isDeclarationNode = false;
+    recast.visit(nodeAst, {
+      visitDeclaration(path) {
+        isDeclarationNode = true;
+        if (path.value.type === "VariableDeclaration") {
+          renameVariableDeclaration(path.value, newName, originName);
+        }
+
+        return false;
+      },
+    });
+
+    if (isDeclarationNode === false) {
+      console.warn(`rename() is only for declaration node, but ${nodeAst.type || "current ast node"} is not`);
+    }
+
+    return nodeAst;
+  }
+
   constructor(content: string) {
     this.rawContent = content;
     this.ast = $(content);
@@ -58,26 +78,5 @@ export class AstHelper {
     }
 
     return this.ast.find(selector as any);
-  }
-
-  static rename(nodeAst: ASTNode, newName: string, originName?: string) {
-    let isDeclarationNode = false;
-    recast.visit(nodeAst, {
-      visitDeclaration(path) {
-        isDeclarationNode = true;
-        if (path.value.type === "VariableDeclaration") {
-          renameVariableDeclaration(path.value, newName, originName);
-        }
-
-        return false;
-      },
-    });
-
-    if (isDeclarationNode === false) {
-      console.warn(`rename() is only for declaration node, but ${nodeAst.type || "current ast node"} is not`);
-      return false;
-    }
-
-    return nodeAst;
   }
 }
