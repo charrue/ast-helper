@@ -1,0 +1,21 @@
+{
+  "name": "@charrue/ast-helper",
+  "version": "0.0.1",
+  "description": "简化ast操作的工具库",
+  "author": "ckangwen",
+  "repository": {
+    "type": "git",
+    "url": "git+"
+  },
+  "main": "dist/index.es.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "vitest"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ast-types": "^0.14.2",
+    "gogocode": "^1.0.45",
+    "recast-yx": "^0.18.12"
+  }
+}
